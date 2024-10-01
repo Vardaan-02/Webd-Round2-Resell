@@ -25,7 +25,7 @@ interface InputProps {
   setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const itemPicker: React.FC<InputProps> = ({itemList, value, setValue }) => {
+const ItemPicker: React.FC<InputProps> = ({itemList, value, setValue }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -35,36 +35,34 @@ const itemPicker: React.FC<InputProps> = ({itemList, value, setValue }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="justify-between bg-[#262629] h-12"
+          className="justify-between bg-white dark:bg-zinc-900 h-10 w-full border-gray-100"
         >
-          {value
-            ? itemList.find((item: any) => item.value === value)?.label
-            : "Select item..."}
+          {value}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="p-0">
-        <Command className="bg-[#262629]">
-          <CommandInput placeholder="Search..." className="h-9 bg-[#262629]" />
-          <CommandList className="no-scrollbar h-60 bg-[#262629]">
-            <CommandEmpty className="bg-[#262629] flex justify-center items-center">
+        <Command className="bg-white dark:bg-zinc-900">
+          <CommandInput placeholder="Search..." className="h-9 bg-white dark:bg-zinc-900" />
+          <CommandList className="no-scrollbar bg-white dark:bg-zinc-900">
+            <CommandEmpty className="bg-white dark:bg-zinc-900 flex justify-center items-center">
               No Item found.
             </CommandEmpty>
             <CommandGroup>
               {itemList.map((item: any) => (
                 <CommandItem
-                  key={item.value}
-                  value={item.value}
+                  key={item}
+                  value={item}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
-                  {item.label}
+                  {item}
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      value === item.value ? "opacity-100" : "opacity-0"
+                      value === item ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>
@@ -77,4 +75,4 @@ const itemPicker: React.FC<InputProps> = ({itemList, value, setValue }) => {
   );
 };
 
-export default itemPicker;
+export default ItemPicker;

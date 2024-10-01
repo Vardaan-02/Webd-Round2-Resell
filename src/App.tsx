@@ -7,6 +7,11 @@ import NotFoundPage from "./pages/404Page";
 import { RootState } from "./state/store";
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ProductPage from "./pages/ProductPage";
+import Message from "./pages/Message";
+import MessageEmpty from "./pages/MessageEmpty";
+import DashBoard from "./pages/DashBoard";
+import Cart from "./pages/Cart";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,6 +28,26 @@ function App() {
       path: "login",
       element: <LoginPage />,
     },
+    {
+      path: "product/:tag",
+      element: <ProductPage />,
+    },
+    {
+      path: "message",
+      element: <MessageEmpty />,
+    },
+    {
+      path: "message/:tag",
+      element: <Message />,
+    },
+    {
+      path: "product",
+      element: <DashBoard />,
+    },
+    {
+      path:"cart",
+      element: <Cart />
+    }
   ]);
 
   const theme = useSelector((state: RootState) => state.theme);
