@@ -14,7 +14,7 @@ export default function MessageArea() {
 
   const initialValue = window.localStorage.getItem(`message/${tag}`);
 
-  const [messages, setMessages] = useState(
+  const [messages = initialValue, setMessages] = useState(
     initialValue ? JSON.parse(initialValue) : dummyConversation
   );
   const [newMessage, setNewMessage] = useState("");
@@ -26,12 +26,13 @@ export default function MessageArea() {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
     window.localStorage.setItem(`message/${tag}`, JSON.stringify(messages));
+    if (messages === null) setMessages(dummyConversation);
   }, [messages]);
 
   useEffect(() => {
     const messageList = window.localStorage.getItem(`message/${tag}`);
     setMessages(messageList ? JSON.parse(messageList) : initialValue);
-  },[tag]);
+  }, [tag]);
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,42 +52,43 @@ export default function MessageArea() {
         style={{ marginLeft: "240px" }}
       >
         <ScrollArea className="flex-grow p-4" ref={scrollAreaRef}>
-          {messages.map((message: Message) => (
-            <div
-              key={message.id}
-              className={`flex ${
-                message.sender === "user" ? "justify-end" : "justify-start"
-              } mb-4`}
-            >
+          {messages &&
+            messages.map((message: Message) => (
               <div
-                className={`flex items-start max-w-[70%] ${
-                  message.sender === "user" ? "flex-row-reverse" : "flex-row"
-                }`}
+                key={message.id}
+                className={`flex ${
+                  message.sender === "user" ? "justify-end" : "justify-start"
+                } mb-4`}
               >
-                <Avatar className="w-8 h-8">
-                  <AvatarImage
-                    src={
-                      message.sender === "user"
-                        ? "/placeholder.svg?height=32&width=32"
-                        : "/placeholder.svg?height=32&width=32"
-                    }
-                  />
-                  <AvatarFallback>
-                    {message.sender === "user" ? "U" : "S"}
-                  </AvatarFallback>
-                </Avatar>
                 <div
-                  className={`mx-2 p-3 rounded-lg ${
-                    message.sender === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-secondary-foreground"
+                  className={`flex items-start max-w-[70%] ${
+                    message.sender === "user" ? "flex-row-reverse" : "flex-row"
                   }`}
                 >
-                  <p className="text-sm md:text-base">{message.text}</p>
+                  <Avatar className="w-8 h-8">
+                    <AvatarImage
+                      src={
+                        message.sender === "user"
+                          ? "/placeholder.svg?height=32&width=32"
+                          : "/placeholder.svg?height=32&width=32"
+                      }
+                    />
+                    <AvatarFallback>
+                      {message.sender === "user" ? "U" : "S"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div
+                    className={`mx-2 p-3 rounded-lg ${
+                      message.sender === "user"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground"
+                    }`}
+                  >
+                    <p className="text-sm md:text-base">{message.text}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </ScrollArea>
         <form
           onSubmit={handleSendMessage}

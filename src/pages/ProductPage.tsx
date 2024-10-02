@@ -71,7 +71,7 @@ export default function ProductPage() {
       <Navbar />
       <div className="w-screen h-screen overflow-hidden pt-16">
         <div className="flex">
-          <Filter
+          {window.innerWidth>600 && <Filter
             price={price}
             location={location}
             quality={quality}
@@ -84,8 +84,8 @@ export default function ProductPage() {
             getLocation={getLocation}
             getQuality={getQuality}
             getRating={getRating}
-          />
-          <div className=" h-screen p-8 flex gap-12 flex-wrap max-w-[80%] overflow-y-scroll justify-center pb-24 no-scrollbar">
+          />}
+          <div className=" h-screen p-8 flex gap-12 flex-wrap md:max-w-[80%] overflow-y-scroll justify-center pb-24 no-scrollbar">
             {items.map((item) => {
               return (
                 <ItemCard

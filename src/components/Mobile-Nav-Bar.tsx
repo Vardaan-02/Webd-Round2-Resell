@@ -6,6 +6,11 @@ import { Popover } from "@/components/ui/popover";
 import { Link } from "react-router-dom";
 import { locations } from "@/lib/locations";
 import ItemPicker from "./Item-Picker";
+import SearchProduct from "./SearchProduct";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/state/store";
+import { CartItem } from "@/types/Item";
+import { setTab } from "@/state/tab/tabSlice";
 
 interface PROPS {
   isMenuOpen: boolean;
@@ -21,9 +26,17 @@ export default function MobileNavBar({
   setIsMenuOpen,
   setLocation,
   location,
-  setTab,
-  tab,
 }: PROPS) {
+  const cart = useSelector((state: RootState) => state.cart);
+
+  const tab = useSelector((state: RootState) => state.tab);
+  const dispatch = useDispatch();
+
+  const subtotal = cart.reduce(
+    (sum: number, item: CartItem) => sum + item.quantity,
+    0
+  );
+
   return (
     <div className="md:hidden">
       <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
@@ -55,7 +68,7 @@ export default function MobileNavBar({
 
           <div className="flex flex-col space-y-4 mt-4">
             <Popover>
-              <div className="ml-7 w-[80%]">
+              <div className="ml-7 w-[86%]">
                 <ItemPicker
                   itemList={locations}
                   value={location}
@@ -69,10 +82,9 @@ export default function MobileNavBar({
                 placeholder="Search..."
                 className="pl-10 pr-4 w-[80%] ml-7"
               />
-              <Search
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 translate-x-6"
-                size={18}
-              />
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 translate-x-4">
+                <SearchProduct />
+              </div>
             </div>
 
             <div className="flex flex-col gap-4 py-8 justify-center items-center">
@@ -81,28 +93,27 @@ export default function MobileNavBar({
                 className={`text-gray-700 dark:text-white transition-all underline-offset-8 ${
                   tab === "home" && "font-bold underline text-violet-700"
                 }`}
-                onClick={() => setTab("home")}
+                onClick={() => dispatch(setTab("home"))}
               >
                 Home
               </Link>
               <Link
-                to="/"
+                to="/product"
                 className={`text-gray-700 dark:text-white transition-all underline-offset-8 ${
                   tab === "product" && "font-bold underline text-violet-700"
                 }`}
-                onClick={() => setTab("product")}
+                onClick={() => dispatch(setTab("product"))}
               >
                 Product
               </Link>
               <Link
-                to="/products"
+                to="/message"
                 className={`text-gray-700 dark:text-white transition-all underline-offset-8 ${
-                  tab === "product" &&
-                  "font-bold underline text-violet-700"
+                  tab === "message" && "font-bold underline text-violet-700"
                 }`}
-                onClick={() => setTab("product")}
+                onClick={() => dispatch(setTab("message"))}
               >
-                Products
+                Message
               </Link>
             </div>
 
@@ -115,7 +126,7 @@ export default function MobileNavBar({
               </Link>
               <Button variant="ghost" className="justify-start mt-8">
                 <ShoppingCart size={20} className="mr-2" />
-                Cart (3)
+                Cart ({subtotal})
               </Button>
             </div>
           </div>
