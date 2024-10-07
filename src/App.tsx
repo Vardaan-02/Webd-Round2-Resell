@@ -12,6 +12,8 @@ import Message from "./pages/Message";
 import MessageEmpty from "./pages/MessageEmpty";
 import DashBoard from "./pages/DashBoard";
 import Cart from "./pages/Cart";
+import IndividualPage from "./pages/IndividualPage";
+import SellerPage from "./pages/SellerPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -47,7 +49,15 @@ function App() {
     {
       path:"cart",
       element: <Cart />
-    }
+    },
+    {
+      path:"buy/product/:id",
+      element:<IndividualPage/>
+    },
+    {
+      path:"sell",
+      element:<SellerPage />
+    },
   ]);
 
   const theme = useSelector((state: RootState) => state.theme);

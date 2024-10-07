@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Star, ShoppingCart, MessageCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { item } from "@/types/Item";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setTab } from "@/state/tab/tabSlice";
 import { addItem, updateQuantity } from "@/state/Cart/cartSlice";
@@ -29,6 +29,8 @@ export default function ItemCard({
   const discountPercentage = Math.round(
     (1 - currentPrice / originalPrice) * 100
   );
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -74,6 +76,9 @@ export default function ItemCard({
         }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={()=>{
+          navigate(`/buy/product/${id}`)
+        }}
       >
         <CardContent className="p-4">
           <div className="relative aspect-square mb-4 overflow-hidden rounded-lg">
