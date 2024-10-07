@@ -36,7 +36,8 @@ export default function ItemCard({
 
   const cart = useSelector((state: RootState) => state.cart);
 
-  function handleCart(id: number) {
+  function handleCart(e:React.MouseEvent<HTMLButtonElement, MouseEvent>,id: number) {
+    e.stopPropagation();
     const existingItem = cart.find((item) => item.id === id);
 
     if (existingItem) {
@@ -131,7 +132,7 @@ export default function ItemCard({
               <MessageCircle className="mr-2 h-4 w-4" /> Message
             </Button>
           </Link>
-          <Button onClick={() => handleCart(id)}>
+          <Button onClick={(e) => handleCart(e,id)}>
             <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
           </Button>
         </CardFooter>
