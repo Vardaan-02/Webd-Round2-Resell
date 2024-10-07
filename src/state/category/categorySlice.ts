@@ -12,6 +12,7 @@ const categorySlice = createSlice({
   initialState,
   reducers: {
     setCategory(state:String,payload){
+      state;
         window.localStorage.setItem("category", payload.payload);
         return payload.payload;
     }

@@ -6,7 +6,7 @@ import ItemCard from "@/components/Item-Card";
 import { featuredProducts } from "@/lib/products";
 
 export default function HomePage() {
-  const categories = tags.filter((item, index) => index < 8);
+  const categories = tags.filter((_, index) => index < 8);
 
   return (
     <>

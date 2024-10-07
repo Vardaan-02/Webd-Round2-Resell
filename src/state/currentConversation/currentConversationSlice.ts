@@ -12,6 +12,7 @@ const currentConversationSlice = createSlice({
   initialState,
   reducers: {
     setCurrentConversation(state: number, action: PayloadAction<number>) {
+      state;
       const conversationId = action.payload;
       window.localStorage.setItem(
         "currentConversation",

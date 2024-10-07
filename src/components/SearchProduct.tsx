@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 import { Input } from "./ui/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useEffectAfterMount from "@/hooks/useEffectAfterMount";
 import { useDebounce } from "@/hooks/useDebounce";
